@@ -1,14 +1,16 @@
-"""Script para convertir un archivo CSV a JSON"""
-
 import csv
 import json
+import os
 
-from nicegui import ui
+def convert_csv_2_json():
+    """Converts files/drivers.csv to files/drivers.json"""
 
-def convert_csv_2_json(input_file):
-    """Converts a CSV file to a JSON file"""
+    input_file = "files/drivers.csv"
+    output_file = "files/drivers.json"
 
-    output_file = input_file.replace(".csv", ".json")
+    if not os.path.exists(input_file):
+        raise FileNotFoundError(f"{input_file} not found")
+
     data = []
 
     with open(input_file, "r", encoding="utf-8") as f:
@@ -19,32 +21,9 @@ def convert_csv_2_json(input_file):
     with open(output_file, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4)
 
-    ui.notify("The file was transformed successfully!")
+    return output_file
 
 
-def app():
-    
-    ui.label("CSV to JSON Converter").classes("text-4xl font-bold")
+if __name__ == "__main__":
+    convert_csv_2_json()
 
-    ui.label("")
-
-    filename = ui.input(
-        label="CSV file to convert:",
-        placeholder="filename",
-    )
-    
-    ui.label("")
-
-    ui.label("")
-
-    ui.button(
-        "Convert", 
-        on_click=lambda: convert_csv_2_json(filename.value),
-    )
-
-    ui.run()
-
-
-
-    
-app()
