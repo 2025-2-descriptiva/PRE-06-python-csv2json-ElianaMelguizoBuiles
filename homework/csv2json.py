@@ -1,16 +1,15 @@
+"""Script para convertir un archivo CSV a JSON"""
+
 import csv
 import json
 import os
 
-def convert_csv_2_json():
-    """Converts files/drivers.csv to files/drivers.json"""
-
-    input_file = "files/drivers.csv"
-    output_file = "files/drivers.json"
-
-    if not os.path.exists(input_file):
-        raise FileNotFoundError(f"{input_file} not found")
-
+def convert_csv_2_json(input_file, output_file=None):
+    """Converts a CSV file to a JSON file"""
+    
+    if output_file is None:
+        output_file = input_file.replace(".csv", ".json")
+    
     data = []
 
     with open(input_file, "r", encoding="utf-8") as f:
@@ -21,9 +20,9 @@ def convert_csv_2_json():
     with open(output_file, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4)
 
-    return output_file
 
-
+# Si el test importa este archivo, NO debe ejecutar una app ni interface
 if __name__ == "__main__":
-    convert_csv_2_json()
+    # Ejecutar conversión automática para el test
+    convert_csv_2_json("files/drivers.csv")
 
